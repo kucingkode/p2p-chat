@@ -1,0 +1,17 @@
+[project]
+name = "jarkom"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "rsa>=4.9.1",
+]
+
+[tool.uv.workspace]
+members = [
+    "dns_server",
+    "dns_client",
+    "common",
+    "chat_peer",
+]

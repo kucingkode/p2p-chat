@@ -1,0 +1,43 @@
+
+Log {
+  margin: 1;
+}
+
+.input {
+  layout: grid;
+  grid-size: 2;
+  column-span: 3;
+  grid-columns: 80w 15w;
+  align: center middle;
+}
+
+#chat {
+  layout: grid;
+  grid-size: 3;
+  grid-rows: 10h 80h 10h;
+}
+
+#chat > * {
+  column-span: 3;
+}
+
+#chat-group-select {
+  layout: grid;
+  grid-size: 1;
+  grid-columns: 95w;
+  align: center middle;
+}
+
+#control {
+  layout: grid;
+  grid-size: 2;
+  grid-rows: 90h 10h;
+}
+
+#control > * {
+  column-span: 2;
+}
+
+#peers {
+  padding: 1;
+}
