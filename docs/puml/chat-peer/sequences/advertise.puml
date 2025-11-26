@@ -1,0 +1,24 @@
+@startuml Advertise
+
+mainframe **flow** ADVERTISEMENT
+
+participant Peer1
+participant Peer2
+
+skinparam style strictuml
+hide footbox
+
+opt Koneksi TCP belum terbentuk
+  Peer1 -> Peer2 : Membentuk koneksi TCP
+  activate Peer2
+  
+  Peer1 -> Peer2 : Send PUBLIC_KEY\n(Public key RSA Peer1)
+  activate Peer2
+
+  Peer2 --> Peer1 : Send PUBLIC_KEY\n(Public key RSA Peer2)
+  deactivate Peer2
+end
+
+Peer1 ->> Peer2 : Send ADVERTISEMENT\n(nama group, token)
+
+@enduml

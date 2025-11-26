@@ -1,0 +1,22 @@
+@startuml Architecture
+
+interface RecordCache {
+  + set(record: Record)
+  + get(name: str): Record
+  + delete(name: str)
+}
+
+class DNSClient {
+  - host: str
+  - port: str
+  - socket: UdpSocket
+
+  + register(name: str, port: int, ttl: int): Record
+  + query(name: str): Record
+  + deregister(name: str)
+  - fetch(request: Request)
+}
+
+DNSClient -- RecordCache : has >
+
+@enduml

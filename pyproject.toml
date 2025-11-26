@@ -1,12 +1,18 @@
 [project]
-name = "jarkom"
+name = "p2p-chat"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "rsa>=4.9.1",
+  "common",
+  "dns_client"
 ]
+
+
+[tool.uv.sources]
+common = { workspace = true }
+dns_client = { workspace = true }
 
 [tool.uv.workspace]
 members = [

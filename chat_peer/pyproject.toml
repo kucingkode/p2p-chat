@@ -1,10 +1,11 @@
 [project]
 name = "chat-peer"
 version = "0.1.0"
-description = "Add your description here"
+description = "Chat peer"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "cryptography>=46.0.3",
+    "pytest-benchmark[histogram]>=5.2.3",
     "textual>=6.6.0",
 ]

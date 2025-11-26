@@ -1,0 +1,105 @@
+@startuml Architecture
+
+interface RecordCache {}
+
+class MemoryRecordCache {
+  - cache: dict[str, Record]
+}
+
+RecordCache <|-- MemoryRecordCache
+
+class ChatModel {
+  - address: tuple[str, int]
+  - public_key: RSAPublicKey
+  - private_key: RSAPrivateKey
+  - seen: Set[str]
+
+  + create_group(name: str): Group
+  + advertise_group(group_name: str, dest: tuple[str, int])
+  + send(group_name: str, content: str)
+  + listen()
+  - forward(group: Group, header: Header, key: bytes, nonce: bytes, body: bytes)
+  - initiate_connection(peer: Peer)
+  - exchange_public_key(peer: Peer)
+  - create_message(type: str, body: bytes, public_key: RSAPublicKey)
+}
+
+class Group {
+  + name: str
+  + token: str
+}
+
+class Message {
+  + sender: tuple[str, int]
+  + content: str
+  + sent_at: float
+  + received_at: float
+}
+
+ChatModel *-- Group 
+ChatModel *-- Peer
+
+class Peer {
+  + address: tuple[str, int]
+  + public_key: RSAPublicKey
+  + public_key_sent: bool
+}
+
+class Header {
+  + type: str
+  + id: str
+  + sender: tuple[str, int]
+  + key_len: int
+  + nonce_len: int
+  + body_len: int
+
+  + dump(): bytes
+}
+
+class AdvertisementBody {
+  + group: str
+  + token: str
+
+  + dump(): bytes
+}
+
+class ConversationBody {
+  + sender: tuple[str, int]
+  + content: str
+  + timestamp: float
+  + group: str
+  + group_token: str
+
+  + dump(): bytes
+}
+
+class TcpSocket {
+  + bind(host: str, port: int, handler: PacketHandler)
+  + send(data: bytes)
+  + connect(ip: str, port: int, handler: PacketHandler)
+  + recv_exact(size: int): bytes
+}
+
+interface RecordCache {
+  + set(record: Record)
+  + get(name: str): Record
+  + delete(name: str)
+}
+
+class DNSClient {
+  - host: str
+  - port: str
+  - socket: UdpSocket
+
+  + register(name: str, port: int, ttl: int): Record
+  + query(name: str): Record
+  + deregister(name: str)
+  - fetch(request: Request)
+}
+
+DNSClient -- RecordCache : memiliki >
+
+Group o-- Peer
+Group *-- Message
+
+@enduml

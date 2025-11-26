@@ -1,0 +1,21 @@
+@startuml Query
+
+mainframe **flow** QUERY
+
+participant "DNS Client" as DNSC
+participant "DNS Server" as DNSS
+
+skinparam style strictuml
+hide footbox
+
+DNSC --> DNSS : Send QUERY\n(name)
+activate DNSS
+
+alt Success
+  DNSS --> DNSC : Send Record\n(name, ip, port, expires_at)
+else Failed
+  DNSS --> DNSC : Send Error
+  deactivate DNSS
+end
+
+@enduml

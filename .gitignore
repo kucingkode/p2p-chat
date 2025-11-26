@@ -10,3 +10,6 @@ wheels/
 .venv
 
 *.log
+registry.json
+.benchmarks
+.pytest_cache

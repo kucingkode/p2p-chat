@@ -1,0 +1,39 @@
+@startuml _
+
+participant "DNS Client" as DNSC
+participant "DNS Server" as DNSS
+
+skinparam style strictuml
+hide footbox
+
+== Register ==
+
+DNSC -> DNSS : register(name, port, ttl)
+activate DNSS
+DNSS --> DNSC : DNS record
+deactivate DNSS
+
+== Query ==
+
+DNSC --> DNSS : query(name)
+activate DNSS
+
+alt Found
+  DNSS --> DNSC : DNS record
+else Not found
+  DNSS --> DNSC : error
+  deactivate DNSS
+end
+
+== Deregister ==
+
+DNSC --> DNSS : deregister(name)
+activate DNSS
+
+alt Deleted
+  DNSS --> DNSC : true
+else Not found
+  DNSS --> DNSC : false
+  deactivate DNSS
+end
+@enduml

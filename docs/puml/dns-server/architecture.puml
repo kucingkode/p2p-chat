@@ -1,0 +1,92 @@
+@startuml Architecture
+
+interface Sendable {
+  + send(data: bytes, address: Any)
+}
+
+class Router {
+  - handlers: dict[str, RouteHandler]
+
+  + handler(data: bytes, address: Any, socket: Sendable)
+  + add_route(method: str, handler: RouteHandler)
+}
+
+class RegistryController {
+  + register(payload: dict, addr: str): Response
+  + query(payload: dict): Response
+  + deregister(payload: dict): Response
+}
+
+class RegistryModel {
+  - registry: dict[str, Record]
+
+  + register(name: str, ip: str, port: int, ttl: int): Record
+  + query(name: str): Record | None
+  + deregister(name: str): bool
+}
+
+RegistryController -- RegistryModel
+
+class Record {
+  + name: str
+  + ip: str
+  + port: int
+  + expires_at: float
+}
+
+interface Request {
+
+  + dump(): bytes
+}
+
+interface Response {
+
+  + dump(): bytes
+}
+
+class RegisterRequest {
+  + method = "REGISTER"
+  + name: str
+  + port: int
+  + ttl: int
+
+  - validate()
+}
+
+class QueryRequest {
+  + method = "QUERY"
+  + name: str
+}
+
+class DeregisterRequest {
+  + method = "DEREGISTER"
+  + name: str
+}
+
+class OkResponse {
+  + status = "OK"
+  + data: dict
+}
+
+class ErrorResponse {
+  + status = "ERROR"
+  + msg: str
+}
+
+class UdpSocket {
+  + bind(host: str, port: int, handler: PacketHandler)
+  + recv(bufSize: int): bytes
+}
+
+Sendable <|-- UdpSocket
+
+Request <|-- RegisterRequest
+Request <|-- QueryRequest
+Request <|-- DeregisterRequest
+
+Response <|--OkResponse
+Response <|--ErrorResponse
+
+RegistryModel *-- Record
+
+@enduml

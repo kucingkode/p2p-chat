@@ -1,7 +1,15 @@
 [project]
 name = "dns-server"
 version = "0.1.0"
-description = "Add your description here"
+description = "DNS server"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "cryptography>=46.0.3",
+    "rsa>=4.9.1"
+]
+
+[dependency-groups]
+dev = [
+    "pytest-benchmark[histogram]>=5.2.3",
+]

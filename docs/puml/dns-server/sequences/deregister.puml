@@ -1,0 +1,21 @@
+@startuml Deregister
+
+mainframe DEREGISTER Communication Flow
+
+participant "DNS Client" as DNSC
+participant "DNS Server" as DNSS
+
+skinparam style strictuml
+hide footbox
+
+DNSC -> DNSS : Send DEREGISTER\n(name)
+activate DNSS
+
+alt Success
+  DNSS --> DNSC : Send Ok
+else Failed
+  DNSS --> DNSC : Send Error
+  deactivate DNSS
+end
+
+@enduml

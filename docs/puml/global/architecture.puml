@@ -1,0 +1,31 @@
+@startuml Architecture
+
+agent "DNS Server" as DNSS
+
+agent "Peer" as P1
+agent "Peer" as P2
+agent "Peer" as P3
+agent "Peer" as P4
+agent "Peer" as P5
+agent "Peer" as P6
+agent "Peer" as P7
+agent "Peer" as P8
+
+DNSS -- P1
+DNSS -- P2
+DNSS -- P3
+DNSS -- P4
+DNSS -- P5
+DNSS -- P6
+DNSS -- P7
+DNSS -- P8
+
+P1 -- P2
+P2 -- P4
+P5 -- P7
+P7 -- P3
+P6 -- P7
+P8 -- P3
+P4 -- P3
+
+@enduml

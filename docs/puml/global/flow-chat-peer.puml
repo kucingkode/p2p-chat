@@ -1,0 +1,63 @@
+@startuml _
+
+mainframe **flow** percakapan grup
+
+skinparam style strictuml
+hide footbox
+
+participant "Peer 1" as Peer1
+participant "Peer 2" as Peer2
+participant "Peer 3" as Peer3
+
+== Buat koneksi terenkripsi dan mengiklankan grup ==
+
+Peer1 -> Peer1 : createGroup
+
+Peer1 -> Peer2 : Buat koneksi TCP
+activate Peer2
+
+Peer1 -> Peer2 : Send PUBLIC_KEY
+activate Peer2
+
+Peer2 --> Peer1 : Send PUBLIC_KEY
+deactivate Peer2
+
+Peer1 -> Peer1 : encryptMessage
+
+Peer1 ->> Peer2 : Send ADVERTISEMENT
+
+Peer2 -> Peer2 : decryptMessage
+
+Peer2 -> Peer3 : Buat koneksi TCP
+activate Peer3
+
+Peer2 -> Peer3 : Send PUBLIC_KEY
+activate Peer3
+
+Peer3 --> Peer2 : Send PUBLIC_KEY
+deactivate Peer3
+
+Peer2 -> Peer2 : encryptMessage
+
+Peer2 ->> Peer3 : Send ADVERTISEMENT
+
+Peer3 -> Peer3 : decryptMessage
+
+== Melakukan percakapan ==
+
+Peer1 -> Peer1 : encryptMessage
+
+Peer1 ->> Peer2 : Send CONVERSATION
+activate Peer2
+
+Peer2 ->> Peer3 : forward CONVERSATION
+activate Peer3
+
+Peer2 --> Peer2 : decryptMessage
+deactivate Peer2
+
+Peer3 --> Peer3 : decryptMessage
+deactivate Peer3
+
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml Send Message
+
+mainframe **flow** CONVERSATION
+
+participant Peer1
+participant Peer2
+participant Peer3
+
+skinparam style strictuml
+hide footbox
+
+ref over Peer1, Peer2 : ADVERTISEMENT
+
+ref over Peer2, Peer3 : ADVERTISEMENT
+
+Peer1 ->> Peer2 : Send CONVERSATION\n(id pesan, group, token, alamat pengirim, pesan, timestamp)
+
+opt Id pesan belum pernah diterima sebelumnya
+  Peer2 ->> Peer3 : Forward CONVERSATION\n(id pesan, group, token, alamat pengirim, pesan, timestamp)
+end
+
+
+@enduml
